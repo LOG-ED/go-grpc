@@ -13,8 +13,18 @@ func newTaskServer() proto.TaskServer {
 	return new(taskServer)
 }
 
-func (s *taskServer) Run(ctx context.Context, msg *proto.RunRequest) (*proto.RunResponse, error) {
-	log.Println(msg)
-	resp := proto.RunResponse{StatusCode: proto.RunResponse_OK}
-	return &resp, nil
+func (s *taskServer) Run(ctx context.Context, req *proto.RunRequest) (*proto.RunResponse, error) {
+	log.Printf("Received Task.Run with method: %s", req.Method)
+
+	rsp := new(proto.RunResponse)
+	switch req.Method {
+	case "GET":
+		rsp.StatusCode = proto.RunResponse_OK
+	case "POST":
+		rsp.StatusCode = proto.RunResponse_CREATED
+	default:
+		rsp.StatusCode = proto.RunResponse_FAILED
+	}
+
+	return rsp, nil
 }
