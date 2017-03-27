@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package proto;
+
+import "google/api/annotations.proto";
+
+service Task {
+	rpc Run(RunRequest) returns (RunResponse) {
+		option (google.api.http) = {
+			post: "/v1/task/run"
+			body: "*"
+		};
+	}
+}
+
+message RunRequest {
+	string method = 1;
+}
+
+message RunResponse {
+	enum StatusCode {
+		UNKNOWN = 0;
+		OK = 200;
+		CREATED = 201;
+		FAILED = 500;
+	}
+
+	StatusCode statusCode = 1;
+}
