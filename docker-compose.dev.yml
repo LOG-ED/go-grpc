@@ -1,0 +1,34 @@
+version: '2'
+
+services:
+  srv:
+    build: .
+    image: go-grpc
+    working_dir: /go/src/github.com/LOG-ED/go-grpc/server
+    command: bash -c "go build && ./server"
+    ports:
+      - "9090"
+    volumes:
+      - .:/go/src/github.com/LOG-ED/go-grpc
+
+  client:
+    build: .
+    image: go-grpc
+    working_dir: /go/src/github.com/LOG-ED/go-grpc/client
+    command: go run main.go
+    depends_on: 
+      - srv
+    volumes:
+      - .:/go/src/github.com/LOG-ED/go-grpc
+
+  proxy:
+    build: .
+    image: go-grpc
+    working_dir: /go/src/github.com/LOG-ED/go-grpc/proxy
+    command: go run main.go
+    ports:
+      - "9000:9000"
+    depends_on: 
+      - srv
+    volumes:
+      - .:/go/src/github.com/LOG-ED/go-grpc

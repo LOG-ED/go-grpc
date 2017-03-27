@@ -9,6 +9,10 @@ RUN curl -fsSL https://github.com/google/protobuf/releases/download/v$PROTOBUF_V
 
 RUN unzip protobuf.zip
 
+RUN go get -v github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis | true
+
+RUN go get -v github.com/golang/protobuf/protoc-gen-go
+
 RUN mkdir -p /go/src/github.com/LOG-ED/go-grpc
 
 COPY . /go/src/github.com/LOG-ED/go-grpc

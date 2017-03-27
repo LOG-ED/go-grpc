@@ -19,7 +19,10 @@ Questa tipologia di corso, definita e organizzata da [LOG.ED](https://loged.it) 
 3. Test the grpc proxy running the following HTTP request:   
     `curl -v -X POST http://localhost:9000/v1/task/run -d '{"method":"GET"}' `       
 
-4. If changes are made to the Protocol Buffer file use the following command (from the proto dir) to regenerate the service        stub:  
+4. Use the **docker-compose.dev.yml** file instead of the defaut one if you want to make changes in a dev environment:   
+    `$ docker-compose -f docker-compose.dev.yml run srv bash`  
+
+5. If changes are made to the Protocol Buffer file use the following command (from the proto dir) to regenerate the service        stub:  
    `protoc -I. -I$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --go_out=plugins=grpc:. task.proto`    
 Use the following command to regenerate the stub for the grpc proxy:   
    `protoc -I. -I$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --grpc-gateway_out=logtostderr=true:. task.proto`
